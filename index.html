@@ -824,13 +824,11 @@ const founderDB = {
     "Creditas": { name: "Sergio Furio", img: "photos/founders/sergio-furio.jpg" },
     "Hotmart": { name: "João Pedro Resende", img: "photos/founders/jp-resende.png" },
     // === Wrong-option companies ===
-    "Gupy": { name: "Mariana Dias", img: "photos/founders/mariana-dias.jpg" },
     "Zenvia": { name: "Cassio Bobsin", img: "photos/founders/cassio-bobsin.webp" },
     "RD Station": { name: "Eric Santos", img: "photos/founders/eric-santos.webp" },
     "VTEX": { name: "Mariano Gomide", img: "photos/founders/mariano-gomide.jpg" },
     "Nuvemshop": { name: "Santiago Sosa", img: "photos/founders/santiago-sosa.webp" },
     "Olist": { name: "Tiago Dalvi", img: "photos/founders/tiago-dalvi.jpg" },
-    "PicPay": { name: "Anderson Chamon", img: "photos/founders/anderson-chamon.jpg" },
     "Stone": { name: "André Street", img: "photos/founders/andre-street.webp" },
     "Ebanx": { name: "João Del Valle", img: "photos/founders/joao-del-valle.png" },
     "Neon": { name: "Pedro Conrade", img: "photos/founders/pedro-conrade.webp" },
@@ -871,7 +869,7 @@ const quizData = [
         startup: "Barte",
         image: "photos/3.jpeg",
         funFact: "Esse pé pisou em tanta maquininha que resolveu trocar tudo por Pix.",
-        options: ["Barte", "Stone", "XP", "PicPay"]
+        options: ["Barte", "Stone", "XP", "C6 Bank"]
     },
     {
         founder: "Pé Misterioso #4",
@@ -906,7 +904,7 @@ const quizData = [
         startup: "Nubank",
         image: "photos/8.jpeg",
         funFact: "Esse pé pisou em muita reunião com investidor gringo antes de revolucionar o roxinho.",
-        options: ["Nubank", "XP", "Gupy", "Loft"]
+        options: ["Nubank", "XP", "Gympass", "Loft"]
     },
     {
         founder: "Pé Misterioso #9",
@@ -934,7 +932,7 @@ const quizData = [
         startup: "Hotmart",
         image: "photos/12.jpeg",
         funFact: "Esse pé vendeu o primeiro curso online descalço, no quarto de casa em BH.",
-        options: ["Hotmart", "Loft/Canary", "Gupy", "Neon"]
+        options: ["Hotmart", "Loft/Canary", "Zenvia", "Neon"]
     }
 ];
 
@@ -962,7 +960,6 @@ const funFactDB = {
     "Ebanx": "Esse pé conectou pagamentos da América Latina com o mundo inteiro.",
     "Stone": "Esse pé levou maquininha pra cada esquina do Brasil — de chinelo, claro.",
     "XP": "Esse pé democratizou investimentos e provou que não precisa de sapato social pra mexer com dinheiro.",
-    "PicPay": "Esse pé fez todo mundo pagar conta pelo celular — até a do churrasco.",
     "BTG Pactual": "Esse pé anda pelos corredores do mercado financeiro com a confiança de quem já viu de tudo.",
     "Conta Azul": "Esse pé organizou a contabilidade de tanto pequeno negócio que virou quase um contador.",
     "Loggi": "Esse pé entrega encomenda mais rápido do que você calça o tênis.",
@@ -974,7 +971,6 @@ const funFactDB = {
     "QuintoAndar": "Esse pé nunca mais precisou de fiador pra alugar apartamento.",
     "Olist": "Esse pé colocou lojinha de bairro pra vender em marketplace gigante.",
     "C6 Bank": "Esse pé entrou no mundo dos bancos digitais pisando forte e com cartão de metal.",
-    "Gupy": "Esse pé revolucionou o RH e fez contratação virar coisa de tecnologia.",
     "Loft": "Esse pé compra e vende apartamento mais rápido do que você troca de meia.",
     "MadeiraMadeira": "Esse pé mobiliou a casa inteira sem sair do sofá.",
     "Zenvia": "Esse pé mandou tanta mensagem que virou plataforma de comunicação."
@@ -1187,12 +1183,15 @@ function selectAnswer(btn, selected, correct) {
         btn.classList.add('wrong');
         flashScreen('red');
 
-        // Show the "correct" answer (a random other option, lol)
+        // Show the "correct" answer
         document.querySelectorAll('.option-btn').forEach(b => {
             if (b.textContent === correct && b !== btn) {
                 b.classList.add('correct');
             }
         });
+
+        // Show who actually owns this foot
+        showFounderPhoto(correct);
     }
 
     document.querySelectorAll('.option-btn').forEach(b => {
