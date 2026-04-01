@@ -24,7 +24,7 @@
         #intro {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
             text-align: center;
-            padding: 2rem;
+            padding: 2rem 3rem;
         }
 
         .logo {
@@ -34,7 +34,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
+            padding: 0.1em 0.2em;
             margin-bottom: 0.5rem;
             animation: pulse 2s ease-in-out infinite;
         }
@@ -466,6 +467,7 @@
             gap: 0;
         }
 
+
         .result-precision {
             font-family: 'Bangers', cursive;
             font-size: clamp(5rem, 18vw, 9rem);
@@ -475,6 +477,7 @@
             background-clip: text;
             line-height: 1;
             margin-bottom: 0.25rem;
+            padding: 0.1em 0.2em;
         }
 
         .result-precision-label {
@@ -490,6 +493,7 @@
             font-family: 'Bangers', cursive;
             font-size: clamp(1.4rem, 4vw, 2rem);
             color: #ffd93d;
+            padding: 0 0.2em;
             margin-bottom: 0.25rem;
         }
 
@@ -560,14 +564,6 @@
             box-shadow: 0 8px 30px rgba(238, 90, 36, 0.5);
         }
 
-        .result-footer {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 1rem;
-            align-items: center;
-        }
-
         .restart-btn {
             padding: 0.6rem 1.5rem;
             border: 2px solid #333;
@@ -581,20 +577,6 @@
         }
 
         .restart-btn:hover { border-color: #fff; color: #fff; }
-
-        .share-btn {
-            padding: 0.6rem 1.5rem;
-            border: 1px solid #333;
-            border-radius: 50px;
-            background: #1a1a1a;
-            color: #aaa;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .share-btn:hover { background: #333; color: #fff; }
 
         .share-btn-main {
             padding: 0.9rem 2.5rem;
@@ -631,7 +613,8 @@
         }
 
 
-        /* === MODAL === */
+
+        /* === EXIT INTENT MODAL === */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -640,63 +623,49 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1.5rem;
+            animation: fadeIn 0.3s ease;
         }
 
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.visible {
+            display: flex;
+        }
 
-        .modal {
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-box {
             background: #151515;
+            border: 2px solid #ff6b6b;
             border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 420px;
+            padding: 2rem 1.75rem;
+            max-width: 480px;
+            width: 100%;
             text-align: center;
-            border: 1px solid #333;
-            animation: modalIn 0.4s ease;
+            position: relative;
+            animation: modalPop 0.4s ease;
         }
 
-        @keyframes modalIn {
-            from { transform: scale(0.8) translateY(30px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        .modal-emoji { font-size: 4rem; margin-bottom: 1rem; }
-
-        .modal-title {
-            font-family: 'Bangers', cursive;
-            font-size: 2rem;
-            color: #ffd93d;
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-text {
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-date {
-            font-size: 0.85rem;
-            color: #ff6b6b;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.8) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .modal-close {
-            padding: 0.7rem 2rem;
-            border: 2px solid #ffd93d;
-            border-radius: 50px;
-            background: transparent;
-            color: #ffd93d;
-            font-weight: 700;
+            position: absolute;
+            top: 0.75rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #555;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: color 0.2s;
         }
 
-        .modal-close:hover {
-            background: #ffd93d;
-            color: #0a0a0a;
-        }
+        .modal-close:hover { color: #fff; }
 
         /* === SHARE (moved into result-footer) === */
     </style>
@@ -774,35 +743,30 @@
         </div>
     </div>
 
-    <div class="cta-section">
-        <p class="cta-text">Tem startup? Mande uma <strong>foto do seu pé</strong> e o <strong>nome da sua startup</strong> para outras pessoas fazerem o quiz.</p>
-        <button class="cta-btn" onclick="showAprilFools()">ENVIAR MEU PÉ 🦶</button>
-    </div>
+    <button class="share-btn share-btn-main" onclick="shareResult()">Mandar pra um amigo 😈</button>
+    <button class="restart-btn" style="margin-top: 0.75rem;" onclick="restartQuiz()">Jogar de novo</button>
 
-    <button class="share-btn share-btn-main" onclick="shareResult()">Mandar pra um amigo</button>
-
-    <div class="result-footer">
-        <p class="otg-plug">Quer conteúdo startupeiro de qualidade no seu email toda terça e quinta?</p>
-        <iframe src="https://offthegrid.com.br/embed" width="480" height="320" style="border: 1px solid #EEE; background: white; border-radius: 12px; max-width: 100%;" frameborder="0" scrolling="no"></iframe>
-        <button class="restart-btn" onclick="restartQuiz()">Jogar de novo</button>
-    </div>
+    <p class="otg-plug" style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Quer conteúdo startupeiro de qualidade no seu email toda terça e quinta?</p>
+    <iframe src="https://offthegrid.com.br/embed" width="480" height="320" style="border: 1px solid #EEE; background: white; border-radius: 12px; max-width: 100%;" frameborder="0" scrolling="no"></iframe>
 </div>
 
-<!-- APRIL FOOLS MODAL -->
-<div class="modal-overlay" id="aprilFoolsModal">
-    <div class="modal">
-        <div class="modal-emoji">🤡🦶</div>
-        <div class="modal-title">CAIU NA PEGADINHA!</div>
-        <p class="modal-text">
-            É <strong>primeiro de abril</strong>, meu parceiro.<br><br>
-            Você realmente achou que ia acertar 10 de 12 pés de empreendedores? 😂<br><br>
-            O jogo era <strong>viciado</strong> — quase todas as respostas iam dar "certo" de qualquer jeito.<br><br>
-            E agora ia mandar foto do pé? Duas vezes trouxa!
+
+<!-- EXIT INTENT MODAL -->
+<div class="modal-overlay" id="prankModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closePrankModal()">&times;</button>
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🤡🦶</div>
+        <div style="font-family: 'Bangers', cursive; font-size: 1.6rem; color: #ff6b6b; margin-bottom: 0.75rem;">PEGADINHA DE PRIMEIRO DE ABRIL!</div>
+        <p class="cta-text" style="margin-bottom: 0;">
+            Ficou se perguntando como você é <strong>tão bom</strong> em reconhecer pés de empreendedores? 😂
             <br><br>
-            <em>Compartilha pra pegar seus amigos também 👇</em>
+            A verdade: <strong>esses pés são todos aleatórios</strong>, coletados do Pinterest. Não são de nenhum fundador.
+            <br><br>
+            O jogo era <strong>viciado</strong> — quase todas as respostas davam "certo" de qualquer jeito. Você nunca teve talento pra pés, só caiu na pegadinha. 🦶
+            <br><br>
+            <em>Agora manda pra um amigo e finge que não sabia 👇</em>
         </p>
-        <div class="modal-date">🗓️ 1º de Abril — Dia da Mentira</div>
-        <button class="modal-close" onclick="closeModal()">Tá bom, me pegaram 😅</button>
+        <button class="share-btn share-btn-main" style="margin-top: 1.25rem;" onclick="shareResult()">Mandar pra um amigo 😈</button>
     </div>
 </div>
 
@@ -1240,14 +1204,6 @@ function showResult() {
     document.getElementById('progressFill').style.width = '100%';
 }
 
-function showAprilFools() {
-    document.getElementById('aprilFoolsModal').classList.add('active');
-}
-
-function closeModal() {
-    document.getElementById('aprilFoolsModal').classList.remove('active');
-}
-
 function restartQuiz() {
     startQuiz();
 }
@@ -1257,20 +1213,37 @@ function shareResult() {
     const text = `🦶 FootMash — ${percent}% de precisão no quiz de pés de empreendedores!\n\n👑 Nível: Pé-Destre do Ecossistema\n🔥 Streak máximo: ${maxStreak}\n\nVocê consegue me superar? Tenta aí 👉`;
 
     navigator.clipboard.writeText(text).then(() => {
-        const btn = document.querySelector('.share-btn');
+        const btn = document.querySelector('.share-btn-main');
+        const original = btn.textContent;
         btn.textContent = '✅ Copiado!';
-        setTimeout(() => btn.textContent = 'Copiar resultado', 2000);
+        setTimeout(() => btn.textContent = original, 2000);
     });
 }
 
-// Close modal on overlay click
-document.getElementById('aprilFoolsModal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
+// === EXIT INTENT MODAL ===
+let prankShown = false;
+
+function closePrankModal() {
+    document.getElementById('prankModal').classList.remove('visible');
+}
+
+function showPrankModal() {
+    if (prankShown) return;
+    if (!document.getElementById('result').classList.contains('active')) return;
+    prankShown = true;
+    document.getElementById('prankModal').classList.add('visible');
+}
+
+// Desktop: mouse leaves viewport from the top
+document.addEventListener('mouseout', function(e) {
+    if (e.clientY <= 0) {
+        showPrankModal();
+    }
 });
 
-// Close modal on Escape
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
+// Close modal on overlay click (outside the box)
+document.getElementById('prankModal').addEventListener('click', function(e) {
+    if (e.target === this) closePrankModal();
 });
 
 // Visitor counter
